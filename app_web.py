@@ -12,31 +12,31 @@ st.set_page_config(
 # Form
 with st.form(key='my_form'):
     # no_of_adults
-    no_of_adults = st.number_input('No of Adults', min_value=0, max_value=10, value=1)
+    no_of_adults = st.slider('No of Adults', min_value=0, max_value=10, value=1)
 
     # no_of_children
-    no_of_children = st.number_input('No of Children', min_value=0, max_value=10, value=0)
+    no_of_children = st.slider('No of Children', min_value=0, max_value=10, value=0)
 
-    # no_of_weekend_nights
-    no_of_weekend_nights = st.number_input('No of Weekend Nights', min_value=0, value=0)
+    # no_of_weekend_nights (Slider avec step de 1)
+    no_of_weekend_nights = st.slider('No of Weekend Nights', min_value=0, max_value=10, value=0, step=1)
 
-    # no_of_week_nights
-    no_of_week_nights = st.number_input('No of Week Nights', min_value=0, value=1)
+    # no_of_week_nights (Slider avec step de 1)
+    no_of_week_nights = st.slider('No of Week Nights', min_value=0, max_value=20, value=1, step=1)
 
-    # required_car_parking_space
-    required_car_parking_space = st.number_input('Required Car Parking Space', min_value=0, value=0)
+    # required_car_parking_space (Slider avec step de 1)
+    required_car_parking_space = st.slider('Required Car Parking Space', min_value=0, max_value=3, value=0, step=1)
 
     # lead_time
     lead_time = st.number_input('Lead Time', min_value=0, value=0)
 
-    # arrival_year
-    arrival_year = st.number_input('Arrival Year', min_value=2015, max_value=2025, value=2022)
+    # arrival_year (Slider pour sélectionner l'année)
+    arrival_year = st.slider('Arrival Year', min_value=2015, max_value=2025, value=2022, step=1)
 
     # arrival_month
     arrival_month = st.selectbox('Arrival Month', options=range(1, 13))
 
-    # arrival_date
-    arrival_date = st.number_input('Arrival Date', min_value=1, max_value=31, value=1)
+    # arrival_date (Slider pour sélectionner la date)
+    arrival_date = st.slider('Arrival Date', min_value=1, max_value=31, value=1, step=1)
 
     # repeated_guest
     repeated_guest = st.selectbox('Repeated Guest', options=['No', 'Yes'])
@@ -77,7 +77,7 @@ with st.form(key='my_form'):
         # Envoi de la requête
         response = requests.post('http://127.0.0.1:8000/predict', json=data)
 
-         # Vérification de la réponse HTTP
+        # Vérification de la réponse HTTP
         if response.status_code == 200:
             result = response.json()
             prediction = result['Prediction']
