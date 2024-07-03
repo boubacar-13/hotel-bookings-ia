@@ -77,5 +77,17 @@ with st.form(key='my_form'):
         # Envoi de la requête
         response = requests.post('http://127.0.0.1:8000/predict', json=data)
 
-        # Affichage de la réponse
-        st.write(response.text)
+         # Vérification de la réponse HTTP
+        if response.status_code == 200:
+            result = response.json()
+            prediction = result['Prediction']
+
+            # Affichage de la phrase finale en fonction de la prédiction
+            if prediction == '0':
+                st.write("Le client a de fortes chances de maintenir sa réservation.")
+            else:
+                st.write("Il y a des risques qu'il l'annule.")
+
+        else:
+            st.error(f"Erreur lors de la requête : {response.status_code} - {response.text}")
+

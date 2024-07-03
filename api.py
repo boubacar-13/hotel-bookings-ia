@@ -3,10 +3,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sklearn.tree import DecisionTreeClassifier
 import joblib
-from joblib import dump, load
 import numpy as np
 import functions as f
-from functions import train_model  
 
 # Définition des métadonnées pour les tags OpenAPI
 tags_metadata = [
@@ -44,7 +42,7 @@ class Data(BaseModel):
     repeated_guest: int
     no_of_previous_cancellations: int
     no_of_previous_bookings_not_canceled: int
-    avg_price_per_room: int
+    avg_price_per_room: float
     no_of_special_requests: int
 
 class TrainingData(BaseModel):
@@ -69,17 +67,36 @@ def training_endpoint(training_data: TrainingData):
     except Exception as e:
         # Capturez les erreurs et renvoyez une réponse d'erreur appropriée
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 # Route pour effectuer les prédictions
-@app.post("/predict", tags=["Numbers"])
+@app.post("/predict", tags=["Predict"])
 def predict(data: Data):
+    try:
+        # Chargement du modèle pré-entraîné
+        model = joblib.load('modele_decision_tree.pkl')
 
-    # Chargement du modèle pré-entraîné
-    model = joblib.load('modele_decision_tree.pkl')
+        # Conversion des données d'entrée en format approprié pour le modèle
+        input_data = np.array([[
+            data.no_of_adults,
+            data.no_of_children,
+            data.no_of_weekend_nights,
+            data.no_of_week_nights,
+            data.required_car_parking_space,
+            data.lead_time,
+            data.arrival_year,
+            data.arrival_month,
+            data.arrival_date,
+            data.repeated_guest,
+            data.no_of_previous_cancellations,
+            data.no_of_previous_bookings_not_canceled,
+            data.avg_price_per_room,
+            data.no_of_special_requests
+        ]])
 
-    data = data.dict()
-    data = list(data.values())
+        # Prédiction à l'aide du modèle chargé
+        pred = model.predict(input_data)
 
-    pred = model.predict([data]) > 0.5
-
-    return {"Prediction"  : str(pred[0][0])}
+        return {"Prediction": str(pred[0])}
+    except Exception as e:
+        # Capturez les erreurs et renvoyez une réponse d'erreur appropriée
+        raise HTTPException(status_code=500, detail=str(e))
