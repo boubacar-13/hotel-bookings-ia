@@ -1,5 +1,3 @@
-contact : boubacar.timera@efrei.net
-date : 03/07/2024
 
 ---
 
@@ -23,16 +21,14 @@ This project focuses on the analysis of hotel reservations data to extract meani
 2. Ensure you have Python installed.
 3. Install the required dependencies by running the following command in your terminal:
 
-```shell
-./run.sh
-
----
+"```shell
+./run.sh"
 
 ## Données
 
 Utilisez les données qui sont dans le github. Si jamais vous n'y arrivez pas, vous pouvez récupérer les données en cliquant sur ("https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset").
 
-**Descriptif des données :**
+### Descriptif des données :
 The file contains the different attributes of customers' reservation details. The detailed data dictionary is given below.
 
 Booking_ID: unique identifier of each booking
