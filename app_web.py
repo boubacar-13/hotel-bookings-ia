@@ -4,94 +4,192 @@ import requests
 # Configuration de la page
 st.set_page_config(
     page_title="Hotel Bookings Status",
-    page_icon="🧊",
+    page_icon="🏨",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Formulaire
-with st.form(key='mon_formulaire'):
+# Contenu de l'onglet pour l'application web existante
+def app_hotel_api():
+#     st.title("Application Web")
 
-    st.header("Informations sur la réservation")
-    # Nombre d'adultes
-    no_of_adults = st.number_input('Nombre d\'adultes', min_value=0, max_value=10, value=1)
+#     # Ajoutez ici le contenu de votre application web existante
+#     st.write("Bienvenue sur l'application web !")
 
-    # Nombre d'enfants
-    no_of_children = st.number_input('Nombre d\'enfants', min_value=0, max_value=10, value=0)
+#     # Formulaire de démonstration pour l'entraînement du modèle
+#     st.header("Entraînement du modèle")
+#     with st.form(key='train_form'):
+#      feature1 = st.number_input('Feature 1', min_value=0, max_value=100, value=10)
+#      feature2 = st.number_input('Feature 2', min_value=0, max_value=100, value=20)
+#      train_submitted = st.form_submit_button('Entraîner le modèle')
 
-    # Nombre de nuits de week-end
-    no_of_weekend_nights = st.number_input('Nombre de nuits de week-end', min_value=0, value=0)
+#      if train_submitted:
+#         train_data = {
+#             "feature1": feature1,
+#             "feature2": feature2
+#         }
+#         response = requests.post('http://127.0.0.1:8000/training', json=train_data)
+#         if response.status_code == 200:
+#             st.success("Modèle entraîné avec succès")
+#         else:
+#             st.error(f"Erreur : {response.text}")
+     # Titre de la page
+     st.title("Bienvenue sur l'API Réservations d'Hôtels")
 
-    # Nombre de nuits en semaine
-    no_of_week_nights = st.number_input('Nombre de nuits en semaine', min_value=0, value=1)
+     # Description de l'API
+     st.markdown("""
+     ### Cette API permet de prédire si un client va annuler sa réservation d'hôtel.
 
-    st.header("Préférences et historique du client")
-    # Place de parking requise
-    required_car_parking_space = st.number_input('Place de parking requise', min_value=0, value=0)
+     **Endpoints disponibles :**
+     - `/training` : Entraînement du modèle.
+     - `/predict` : Prédictions avec le modèle.
 
-    # Délai avant arrivée
-    lead_time = st.number_input('Délai avant arrivée (en jours)', min_value=0, value=0)
+     **Exemples de requêtes :**
+     - **Training** :
+     ```json
+     {
+          "feature1": 10,
+          "feature2": 20
+     }
+     ```
+     - **Predict** :
+     ```json
+     {
+          "no_of_adults": 2,
+          "no_of_children": 1,
+          "no_of_weekend_nights": 2,
+          "no_of_week_nights": 3,
+          "required_car_parking_space": 1,
+          "lead_time": 100,
+          "arrival_year": 2023,
+          "arrival_month": 7,
+          "arrival_date": 15,
+          "repeated_guest": 0,
+          "no_of_previous_cancellations": 0,
+          "no_of_previous_bookings_not_canceled": 1,
+          "avg_price_per_room": 150.0,
+          "no_of_special_requests": 2
+     }
+     ```
+     """)
 
-    # Année d'arrivée
-    arrival_year = st.number_input('Année d\'arrivée', min_value=2015, max_value=2025, value=2022)
+     # # Formulaire de démonstration pour l'entraînement du modèle
+     # st.header("Entraînement du modèle")
+     # with st.form(key='train_form'):
+     #      feature1 = st.number_input('Feature 1', min_value=0, max_value=100, value=10)
+     #      feature2 = st.number_input('Feature 2', min_value=0, max_value=100, value=20)
+     #      train_submitted = st.form_submit_button('Entraîner le modèle')
 
-    # Mois d'arrivée
-    arrival_month = st.selectbox('Mois d\'arrivée', options=range(1, 13))
+     #      if train_submitted:
+     #           train_data = {
+     #                "feature1": feature1,
+     #                "feature2": feature2
+     #           }
+     #           response = requests.post('http://127.0.0.1:8000/training', json=train_data)
+     #           if response.status_code == 200:
+     #                st.success("Modèle entraîné avec succès")
+     #           else:
+     #                st.error(f"Erreur : {response.text}")
 
-    # Date d'arrivée
-    arrival_date = st.number_input('Date d\'arrivée', min_value=1, max_value=31, value=1)
 
-    # Client répété
-    repeated_guest = st.selectbox('Client répété', options=['Non', 'Oui'])
+# Contenu de l'onglet pour l'API d'hôtel
+def app_web():
+    st.header('Votre client va t-il annuler sa réservation ?', divider='rainbow')
+    st.subheader('Vérifier le en quelques secondes !')
+    # Formulaire
+    with st.form(key='mon_formulaire'):
 
-    st.header("Historique des réservations")
-    # Nombre d'annulations précédentes
-    no_of_previous_cancellations = st.number_input('Nombre d\'annulations précédentes', min_value=0, value=0)
+     st.header("Informations sur la réservation")
+     # Nombre d'adultes
+     no_of_adults = st.number_input('Nombre d\'adultes', min_value=0, max_value=10, value=1)
 
-    # Nombre de réservations précédentes non annulées
-    no_of_previous_bookings_not_canceled = st.number_input('Nombre de réservations précédentes non annulées', min_value=0, value=0)
+     # Nombre d'enfants
+     no_of_children = st.number_input('Nombre d\'enfants', min_value=0, max_value=10, value=0)
 
-    # Prix moyen par chambre
-    avg_price_per_room = st.number_input('Prix moyen par chambre', min_value=0.0, value=100.0)
+     # Nombre de nuits de week-end
+     no_of_weekend_nights = st.number_input('Nombre de nuits de week-end', min_value=0, value=0)
 
-    # Nombre de demandes spéciales
-    no_of_special_requests = st.number_input('Nombre de demandes spéciales', min_value=0, value=0)
+     # Nombre de nuits en semaine
+     no_of_week_nights = st.number_input('Nombre de nuits en semaine', min_value=0, value=1)
 
-    soumis = st.form_submit_button('Soumettre')
+     st.header("Préférences et historique du client")
+     # Place de parking requise
+     required_car_parking_space = st.number_input('Place de parking requise', min_value=0, value=0)
 
-    if soumis:
-        # Convertir les données en un format compatible avec la requête
-        data = {
-            "no_of_adults": no_of_adults,
-            "no_of_children": no_of_children,
-            "no_of_weekend_nights": no_of_weekend_nights,
-            "no_of_week_nights": no_of_week_nights,
-            "required_car_parking_space": required_car_parking_space,
-            "lead_time": lead_time,
-            "arrival_year": arrival_year,
-            "arrival_month": arrival_month,
-            "arrival_date": arrival_date,
-            "repeated_guest": 1 if repeated_guest == 'Oui' else 0,
-            "no_of_previous_cancellations": no_of_previous_cancellations,
-            "no_of_previous_bookings_not_canceled": no_of_previous_bookings_not_canceled,
-            "avg_price_per_room": avg_price_per_room,
-            "no_of_special_requests": no_of_special_requests
-        }
+     # Délai avant arrivée
+     lead_time = st.number_input('Délai avant arrivée (en jours)', min_value=0, value=0)
 
-        # Envoi de la requête
-        response = requests.post('http://127.0.0.1:8000/predict', json=data)
+     # Année d'arrivée
+     arrival_year = st.number_input('Année d\'arrivée', min_value=2015, max_value=2025, value=2022)
 
-        # Vérification de la réponse HTTP
-        if response.status_code == 200:
-            result = response.json()
-            prediction = result['Prediction']
+     # Mois d'arrivée
+     arrival_month = st.selectbox('Mois d\'arrivée', options=range(1, 13))
 
-            # Affichage de la phrase finale en fonction de la prédiction
-            if prediction == '0':
-                st.write("Le client a de fortes chances de maintenir sa réservation 🎉")
-            else:
-                st.write("Il y a des risques que le client annule sa réservation 😢")
+     # Date d'arrivée
+     arrival_date = st.number_input('Date d\'arrivée', min_value=1, max_value=31, value=1)
 
-        else:
-            st.error(f"Erreur lors de la requête : {response.status_code} - {response.text}")
+     # Client répété
+     repeated_guest = st.selectbox('Client répété', options=['Non', 'Oui'])
 
+     st.header("Historique des réservations")
+     # Nombre d'annulations précédentes
+     no_of_previous_cancellations = st.number_input('Nombre d\'annulations précédentes', min_value=0, value=0)
+
+     # Nombre de réservations précédentes non annulées
+     no_of_previous_bookings_not_canceled = st.number_input('Nombre de réservations précédentes non annulées', min_value=0, value=0)
+
+     # Prix moyen par chambre
+     avg_price_per_room = st.number_input('Prix moyen par chambre', min_value=0.0, value=100.0)
+
+     # Nombre de demandes spéciales
+     no_of_special_requests = st.number_input('Nombre de demandes spéciales', min_value=0, value=0)
+
+     soumis = st.form_submit_button('Soumettre')
+
+     if soumis:
+          # Convertir les données en un format compatible avec la requête
+          data = {
+               "no_of_adults": no_of_adults,
+               "no_of_children": no_of_children,
+               "no_of_weekend_nights": no_of_weekend_nights,
+               "no_of_week_nights": no_of_week_nights,
+               "required_car_parking_space": required_car_parking_space,
+               "lead_time": lead_time,
+               "arrival_year": arrival_year,
+               "arrival_month": arrival_month,
+               "arrival_date": arrival_date,
+               "repeated_guest": 1 if repeated_guest == 'Oui' else 0,
+               "no_of_previous_cancellations": no_of_previous_cancellations,
+               "no_of_previous_bookings_not_canceled": no_of_previous_bookings_not_canceled,
+               "avg_price_per_room": avg_price_per_room,
+               "no_of_special_requests": no_of_special_requests
+          }
+
+          # Envoi de la requête
+          response = requests.post('http://127.0.0.1:8000/predict', json=data)
+
+          # Vérification de la réponse HTTP
+          if response.status_code == 200:
+               result = response.json()
+               prediction = result['Prediction']
+
+               # Affichage de la phrase finale en fonction de la prédiction
+               if prediction == '0':
+                    st.success("Le client a de fortes chances de maintenir sa réservation 🎉")
+               else:
+                    st.error("Il y a des risques que le client annule sa réservation 😢")
+
+          else:
+               st.error(f"Erreur lors de la requête!!!!! : {response.status_code} - {response.text}")
+
+# Menu de sélection des onglets
+selected_app = st.sidebar.selectbox(
+    "Sélectionnez l'application :",
+    ("Application Web", "API Hotel Reservations")
+)
+
+# Afficher l'onglet sélectionné
+if selected_app == "Application Web":
+    app_web()
+elif selected_app == "API Hotel Reservations":
+    app_hotel_api()
