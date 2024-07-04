@@ -11,28 +11,6 @@ st.set_page_config(
 
 # Contenu de l'onglet pour l'application web existante
 def app_hotel_api():
-#     st.title("Application Web")
-
-#     # Ajoutez ici le contenu de votre application web existante
-#     st.write("Bienvenue sur l'application web !")
-
-#     # Formulaire de démonstration pour l'entraînement du modèle
-#     st.header("Entraînement du modèle")
-#     with st.form(key='train_form'):
-#      feature1 = st.number_input('Feature 1', min_value=0, max_value=100, value=10)
-#      feature2 = st.number_input('Feature 2', min_value=0, max_value=100, value=20)
-#      train_submitted = st.form_submit_button('Entraîner le modèle')
-
-#      if train_submitted:
-#         train_data = {
-#             "feature1": feature1,
-#             "feature2": feature2
-#         }
-#         response = requests.post('http://127.0.0.1:8000/training', json=train_data)
-#         if response.status_code == 200:
-#             st.success("Modèle entraîné avec succès")
-#         else:
-#             st.error(f"Erreur : {response.text}")
      # Titre de la page
      st.title("Bienvenue sur l'API Réservations d'Hôtels")
 
@@ -72,25 +50,6 @@ def app_hotel_api():
      }
      ```
      """)
-
-     # # Formulaire de démonstration pour l'entraînement du modèle
-     # st.header("Entraînement du modèle")
-     # with st.form(key='train_form'):
-     #      feature1 = st.number_input('Feature 1', min_value=0, max_value=100, value=10)
-     #      feature2 = st.number_input('Feature 2', min_value=0, max_value=100, value=20)
-     #      train_submitted = st.form_submit_button('Entraîner le modèle')
-
-     #      if train_submitted:
-     #           train_data = {
-     #                "feature1": feature1,
-     #                "feature2": feature2
-     #           }
-     #           response = requests.post('http://127.0.0.1:8000/training', json=train_data)
-     #           if response.status_code == 200:
-     #                st.success("Modèle entraîné avec succès")
-     #           else:
-     #                st.error(f"Erreur : {response.text}")
-
 
 # Contenu de l'onglet pour l'API d'hôtel
 def app_web():
