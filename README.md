@@ -56,6 +56,9 @@ no_of_special_requests: Total number of special requests made by the customer (e
 booking_status: Flag indicating if the booking was canceled or not.
 
 
+## MODELE SCKIKIT LEARN
+Le modèle choisi est DecisionTreeClassifier pour sa plus grande précision.
+
 ## WEB APP
 Des professionnels du secteurs de l'hôtellerie pourront utiliser cet outil et prédire le taux de remplissage de leurs hôtels.
 P.S : Pour vérifier que l'outil fonctionne, on peut juste modifier le prix. Ex essayer avec 100€ puis avec 300€. Dans le premier cas, le client maintiendrait sa résa, dans le second, il l'annulera.
