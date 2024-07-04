@@ -3,58 +3,60 @@ date : 03/07/2024
 
 ---
 
-# Le titanic : aurait-on pu prévoir à l'avance qui allait survivre ?
+# Hotel Reservations Analysis and API
+
+This project focuses on the analysis of hotel reservations data to extract meaningful insights and the development of an API to serve the results of the analysis.
+
+## Project Structure
+
+- `Notebook_Hotel_Reservations.ipynb`: Jupyter notebook containing the data preparation and analysis.
+- `api.py`: Contains the FastAPI app with endpoints to interact with the analysis results.
+- `app_web.py`: A web application to display the analysis results in a user-friendly manner.
+- `Documentation.py`: Provides detailed documentation of the project's functionality and API endpoints.
+- `functions.py`: Helper functions used across the project for various tasks like data processing and analysis.
+- `requirements.txt`: Lists all the Python packages that need to be installed to run this project.
+- `run.sh`: Shell script to install dependencies and start the API server.
+
+## Installation
+
+1. Clone this repository to your local machine.
+2. Ensure you have Python installed.
+3. Install the required dependencies by running the following command in your terminal:
+
+```shell
+./run.sh
+
 ---
 
-## But du notebook
+## Données
 
-Dans ce Notebook, nous allons faire l'étude du tristement célèbre jeu de données [des passagers du titanic](https://www.kaggle.com/c/titanic).
-
-A partir d'un descriptif des passagers au moment où ils sont montés à bord, est-il possible de prédire qui allait s'en sortir ?
-
----
-
-## Information
-
-Le but de ce Notebook est d'étudier les données. On va utiliser pour cela quelques bibliothèques : pandas pour les manipulations de données, numpy pour les opérations mathématiques et plotly pour faire nos graphes. Des bibliothèques alternatives existent pour la visualisation de données (matplotlib, seaborn, bokeh...). numpy et pandas sont par contre des standards dans l'industrie.
-
-Pour la Data Science, le standard de l'industrie est scikit-learn (tensorflow ou pytorch pour le deep learning). Nous les utiliserons dès les prochains cours.
-
----
-
-## Données 
-
-Utilisez les données qui sont dans le github. Si jamais vous n'y arrivez pas, vous pouvez récupérer les données en cliquant sur [ce lien](https://www.kaggle.com/c/titanic).
+Utilisez les données qui sont dans le github. Si jamais vous n'y arrivez pas, vous pouvez récupérer les données en cliquant sur ("https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset").
 
 **Descriptif des données :**
+The file contains the different attributes of customers' reservation details. The detailed data dictionary is given below.
 
-|Variable | Definition |	Key |
-|---|---|---|
-|survival |	Survival |	0 = No, 1 = Yes |
-|pclass 	Ticket class |	1 = 1st, 2 = 2nd, 3 = 3rd |
-|sex |	Sex 	| |
-|Age |	Age in years | | 	
-|sibsp |	# of siblings / spouses aboard the Titanic | 	|
-|parch |	# of parents / children aboard the Titanic 	| |
-|ticket |	Ticket number 	| |
-|fare |	Passenger fare 	| |
-|cabin |	Cabin number 	| |
-|embarked | 	Port of Embarkation |	C = Cherbourg, Q = Queenstown, S = Southampton |
+Booking_ID: unique identifier of each booking
+no_of_adults: Number of adults
+no_of_children: Number of Children
+no_of_weekend_nights: Number of weekend nights (Saturday or Sunday) the guest stayed or booked to stay at the hotel
+no_of_week_nights: Number of week nights (Monday to Friday) the guest stayed or booked to stay at the hotel
+type_of_meal_plan: Type of meal plan booked by the customer:
+required_car_parking_space: Does the customer require a car parking space? (0 - No, 1- Yes)
+room_type_reserved: Type of room reserved by the customer. The values are ciphered (encoded) by INN Hotels.
+lead_time: Number of days between the date of booking and the arrival date
+arrival_year: Year of arrival date
+arrival_month: Month of arrival date
+arrival_date: Date of the month
+market_segment_type: Market segment designation.
+repeated_guest: Is the customer a repeated guest? (0 - No, 1- Yes)
+no_of_previous_cancellations: Number of previous bookings that were canceled by the customer prior to the current booking
+no_of_previous_bookings_not_canceled: Number of previous bookings not canceled by the customer prior to the current booking
+avg_price_per_room: Average price per day of the reservation; prices of the rooms are dynamic. (in euros)
+no_of_special_requests: Total number of special requests made by the customer (e.g. high floor, view from the room, etc)
+booking_status: Flag indicating if the booking was canceled or not.
 
-Variable Notes
 
-pclass: A proxy for socio-economic status (SES)
-1st = Upper
-2nd = Middle
-3rd = Lower
-
-age: Age is fractional if less than 1. If the age is estimated, is it in the form of xx.5
-
-sibsp: The dataset defines family relations in this way...
-Sibling = brother, sister, stepbrother, stepsister
-Spouse = husband, wife (mistresses and fiancés were ignored)
-
-parch: The dataset defines family relations in this way...
-Parent = mother, father
-Child = daughter, son, stepdaughter, stepson
-Some children travelled only with a nanny, therefore parch=0 for them.
+## WEB APP
+Des professionnels du secteurs de l'hôtellerie pourront utiliser cet outil et prédire le taux de remplissage de leurs hôtels.
+P.S : Pour vérifier que l'outil fonctionne, on peut juste modifier le prix. Ex essayer avec 100€ puis avec 300€. Dans le premier cas, le client maintiendrait sa résa, dans le second, il l'annulera.
+```
